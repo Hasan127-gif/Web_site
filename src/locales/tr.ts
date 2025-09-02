@@ -1,0 +1,118 @@
+export const tr = {
+  // Navigation
+  nav: {
+    roommate: 'Ev Arkadaşı',
+    pets: 'Hayvan Sahiplendirme',
+    furniture: 'İkinci El Mobilya',
+    profile: 'Profil',
+    search: 'Ara',
+    map: 'Harita',
+    chat: 'Mesajlar',
+  },
+  
+  // Common
+  common: {
+    search: 'Ara...',
+    filter: 'Filtrele',
+    sort: 'Sırala',
+    location: 'Konum',
+    price: 'Fiyat',
+    date: 'Tarih',
+    featured: 'Öne Çıkan',
+    verified: 'Doğrulanmış',
+    new: 'Yeni',
+    popular: 'Popüler',
+    nearby: 'Yakınımda',
+    all: 'Tümü',
+    save: 'Kaydet',
+    cancel: 'İptal',
+    edit: 'Düzenle',
+    delete: 'Sil',
+    share: 'Paylaş',
+    contact: 'İletişim',
+    details: 'Detaylar',
+    photos: 'Fotoğraflar',
+    reviews: 'Yorumlar',
+    report: 'Şikayet Et',
+  },
+  
+  // Trust & Safety
+  trust: {
+    verified: 'Doğrulanmış',
+    idVerified: 'Kimlik Doğrulandı',
+    studentVerified: 'Öğrenci Doğrulandı',
+    phoneVerified: 'Telefon Doğrulandı',
+    safetyTips: 'Güvenlik İpuçları',
+    escrowProtected: 'Güvenli Ödeme',
+    rating: 'Değerlendirme',
+    reviews: 'yorum',
+    trustScore: 'Güven Puanı',
+  },
+  
+  // Roommate
+  roommate: {
+    title: 'Ev Arkadaşı Bul',
+    roomType: 'Oda Tipi',
+    single: 'Tek Kişilik',
+    shared: 'Paylaşımlı',
+    studio: 'Stüdyo',
+    availableFrom: 'Müsait Tarih',
+    preferences: 'Tercihler',
+    gender: 'Cinsiyet',
+    male: 'Erkek',
+    female: 'Kadın',
+    any: 'Farketmez',
+    smoking: 'Sigara',
+    pets: 'Evcil Hayvan',
+    students: 'Öğrenci',
+    allowed: 'İzinli',
+    notAllowed: 'İzinsiz',
+  },
+  
+  // Pets
+  pets: {
+    title: 'Hayvan Sahiplendir',
+    petType: 'Hayvan Türü',
+    dog: 'Köpek',
+    cat: 'Kedi',
+    bird: 'Kuş',
+    rabbit: 'Tavşan',
+    other: 'Diğer',
+    breed: 'Irk',
+    age: 'Yaş',
+    gender: 'Cinsiyet',
+    vaccinated: 'Aşılı',
+    neutered: 'Kısırlaştırılmış',
+    yes: 'Evet',
+    no: 'Hayır',
+  },
+  
+  // Furniture
+  furniture: {
+    title: 'İkinci El Mobilya',
+    category: 'Kategori',
+    sofa: 'Kanepe',
+    table: 'Masa',
+    chair: 'Sandalye',
+    bed: 'Yatak',
+    storage: 'Dolap',
+    decoration: 'Dekorasyon',
+    other: 'Diğer',
+    condition: 'Durum',
+    new: 'Sıfır',
+    excellent: 'Mükemmel',
+    good: 'İyi',
+    fair: 'Orta',
+    dimensions: 'Boyutlar',
+  },
+  
+  // Empty states
+  empty: {
+    noResults: 'Sonuç bulunamadı',
+    noResultsDesc: 'Arama kriterlerinizi değiştirmeyi deneyin',
+    noFavorites: 'Henüz favoriniz yok',
+    noFavoritesDesc: 'Beğendiğiniz ilanları favorilerinize ekleyin',
+    noMessages: 'Henüz mesajınız yok',
+    noMessagesDesc: 'İlan sahipleriyle iletişime geçin',
+  },
+} as const;
