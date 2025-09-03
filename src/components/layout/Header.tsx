@@ -1,22 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Search, Bell, User } from 'lucide-react';
 import { Input } from '../ui/Input';
 
-interface HeaderProps {
-  onProfileClick: () => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
+export const Header: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
+          <Link to="/" className="flex items-center space-x-3">
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <span className="text-primary-foreground font-bold text-sm">T</span>
             </div>
             <h1 className="text-xl font-bold">TrustApp</h1>
-          </div>
+          </Link>
           
           <div className="flex items-center space-x-3">
             <div className="relative">
@@ -31,10 +28,7 @@ export const Header: React.FC<HeaderProps> = ({ onProfileClick }) => {
               <Bell className="w-5 h-5" />
             </button>
             
-            <button 
-              onClick={onProfileClick}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
-            >
+            <button className="p-2 hover:bg-muted rounded-lg transition-colors">
               <User className="w-5 h-5" />
             </button>
           </div>
