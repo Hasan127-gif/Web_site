@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { apiClient } from '../../config/api'
 
 const schema = z.object({
   category: z.enum(['room', 'pet', 'furniture']),
@@ -18,15 +19,21 @@ export default function ListingForm({
   onNext,
   onBack,
 }: { step: number; onNext: () => void; onBack: () => void }) {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: { category: 'room', rules: [] },
   })
 
-  const submit = (data: FormData) => {
-    // TODO: API'ye POST et (VITE_API_BASE_URL)
-    console.log('submit', data)
-    onNext()
+  const submit = async (data: FormData) => {
+    try {
+      // API'ye POST et
+      const response = await apiClient.post('/listings', data)
+      console.log('İlan oluşturuldu:', response.data)
+      onNext()
+    } catch (error) {
+      console.error('İlan oluşturma hatası:', error)
+      // TODO: Toast notification göster
+    }
   }
 
   return (
@@ -59,7 +66,7 @@ export default function ListingForm({
 
       <label className="grid gap-1">
         <span>Başlık</span>
-        <input {...register('title')} className="rounded-lg border px-3 py-2" placeholder="Kadıköy’de eşyalı oda" />
+        <input {...register('title')} className="rounded-lg border px-3 py-2" placeholder="Kadıköy'de eşyalı oda" />
         {errors.title && <small className="text-red-600">{errors.title.message}</small>}
       </label>
 
@@ -69,8 +76,12 @@ export default function ListingForm({
         {errors.description && <small className="text-red-600">{errors.description.message}</small>}
       </label>
 
-      <button className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">
-        Kaydet ve Devam Et
+      <button 
+        type="submit"
+        disabled={isSubmitting}
+        className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700 disabled:opacity-50"
+      >
+        {isSubmitting ? 'Kaydediliyor...' : 'Kaydet ve Devam Et'}
       </button>
     </form>
   )
