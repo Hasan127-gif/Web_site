@@ -4,7 +4,7 @@ import { ArrowLeft, Bot } from 'lucide-react';
 import { Button } from '../components/ui/Button';
 import { ListingForm } from '../components/forms/ListingForm';
 
-export const NewListing: React.FC = () => {
+const NewListing: React.FC = () => {
   const navigate = useNavigate();
   const [showAIAssistant, setShowAIAssistant] = React.useState(false);
 
@@ -41,3 +41,4 @@ export const NewListing: React.FC = () => {
     </div>
   );
 };
+export default NewListing;

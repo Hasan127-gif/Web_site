@@ -179,7 +179,7 @@ export const Home: React.FC = () => {
         <p className="text-muted-foreground">
           Güvenli platformumuzda ilanınızı paylaşın
         </p>
-        <Link to="/new-listing">
+        <Link to="/listing/new">
           <Button size="lg">
             İlan Ver
           </Button>
@@ -200,3 +200,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;

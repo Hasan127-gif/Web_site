@@ -7,7 +7,7 @@ import { PetCard } from '../components/ui/PetCard';
 import { AIRecommendationCard } from '../components/ui/AIRecommendationCard';
 import { tr } from '../locales/tr';
 
-export const Pets: React.FC = () => {
+const Pets: React.FC = () => {
   const petListings = [
     {
       id: '1',
@@ -185,3 +185,4 @@ export const Pets: React.FC = () => {
     </div>
   );
 };
+export default Pets;

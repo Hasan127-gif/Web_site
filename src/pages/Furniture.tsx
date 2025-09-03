@@ -7,7 +7,7 @@ import { FurnitureCard } from '../components/ui/FurnitureCard';
 import { AIRecommendationCard } from '../components/ui/AIRecommendationCard';
 import { tr } from '../locales/tr';
 
-export const Furniture: React.FC = () => {
+const Furniture: React.FC = () => {
   const [showMap, setShowMap] = React.useState(false);
 
   const furnitureListings = [
@@ -201,3 +201,4 @@ export const Furniture: React.FC = () => {
     </div>
   );
 };
+export default Furniture;

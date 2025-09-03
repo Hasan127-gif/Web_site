@@ -9,7 +9,7 @@ import { RoommateCard } from '../components/ui/RoommateCard';
 import { AIRecommendationCard } from '../components/ui/AIRecommendationCard';
 import { tr } from '../locales/tr';
 
-export const Roommates: React.FC = () => {
+const Roommates: React.FC = () => {
   const [showMap, setShowMap] = React.useState(false);
   const [priceRange, setPriceRange] = React.useState([2000, 8000]);
 
@@ -213,3 +213,5 @@ export const Roommates: React.FC = () => {
     </div>
   );
 };
+
+export default Roommates;
