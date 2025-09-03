@@ -17,8 +17,33 @@ cd Web_site
 # Bağımlılıkları yükleyin
 npm i
 
+# Environment variables'ları ayarlayın
+cp .env.example .env
+
 # Geliştirme sunucusunu başlatın
 npm run dev
+```
+
+## ⚙️ Environment Variables
+
+Proje environment variables kullanarak konfigürasyonu yönetir. `.env.example` dosyasını kopyalayıp `.env` olarak adlandırın ve değerleri düzenleyin:
+
+```bash
+# API Configuration
+VITE_API_BASE_URL=http://localhost:3000/api
+
+# App Configuration
+VITE_APP_NAME=TrustApp
+VITE_APP_VERSION=1.0.0
+
+# Feature Flags
+VITE_ENABLE_AI_FEATURES=true
+VITE_ENABLE_ESCROW=true
+VITE_ENABLE_VERIFICATION=true
+
+# External Services
+VITE_GOOGLE_MAPS_API_KEY=your_google_maps_key
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_key
 ```
 
 ## ✨ Özellikler
@@ -31,7 +56,7 @@ npm run dev
 - 🗺️ Harita entegrasyonu
 
 ### 🐾 **Hayvan Sahiplendirme**
-- �� Pet Match AI eşleştirme sistemi
+- 🤖 Pet Match AI eşleştirme sistemi
 - 🏥 Sağlık durumu ve temperament bilgileri
 - 📋 4 adımlı sahiplenme başvuru süreci
 - 🏠 Barınak ve bireysel sahip desteği
@@ -39,7 +64,7 @@ npm run dev
 
 ### 🛋️ **Mobilya Pazaryeri**
 - 💳 Escrow güvenli ödeme sistemi
-- �� 3D boyut gösterimi
+- 📏 3D boyut gösterimi
 - 🚚 Çoklu teslimat seçenekleri
 - 📸 AI destekli fotoğraf ipuçları
 - 🏷️ Akıllı etiketleme
@@ -69,6 +94,8 @@ npm run dev
 | **State Management** | React Hooks |
 | **Routing** | React Router DOM |
 | **Forms** | React Hook Form + Zod |
+| **API Client** | Custom API Client |
+| **Environment** | Vite Environment Variables |
 | **Design** | Mobile-first, Responsive |
 
 ## 📱 Kullanım
@@ -91,11 +118,26 @@ npm run dev
 
 ```
 src/
+├── app/
+│   ├── App.tsx          # Ana uygulama bileşeni
+│   └── routes.tsx       # React Router konfigürasyonu
+├── pages/
+│   ├── Home.tsx         # Ana sayfa
+│   ├── Roommates.tsx    # Ev arkadaşı sayfası
+│   ├── Pets.tsx         # Hayvan sahiplendirme sayfası
+│   ├── Furniture.tsx    # Mobilya sayfası
+│   └── NewListing.tsx   # Yeni ilan sayfası
 ├── components/
+│   ├── Layout.tsx       # Ana layout bileşeni
+│   ├── Nav.tsx          # Navigation bileşeni
 │   ├── layout/          # Header, Navigation
 │   ├── pages/           # Ana sayfalar (Home, Roommate, Pets, Furniture)
 │   ├── ui/              # Yeniden kullanılabilir bileşenler
-│   └── modals/          # Modal bileşenleri (Verification, Contract)
+│   ├── modals/          # Modal bileşenleri (Verification, Contract)
+│   └── forms/           # Form bileşenleri (ListingForm)
+├── config/
+│   ├── env.ts           # Environment variables konfigürasyonu
+│   └── api.ts           # API client ve endpoints
 ├── hooks/               # React hooks (useTheme)
 ├── types/               # TypeScript tipleri
 ├── locales/             # Çoklu dil desteği (tr.ts)
@@ -132,29 +174,58 @@ npm run lint         # ESLint kod kontrolü
 3. Türkçe metinleri `src/locales/tr.ts` ekleyin
 4. Responsive tasarım uygulayın (mobile-first)
 5. AI özelliklerini entegre edin
+6. Environment variables'ları `src/config/env.ts` ekleyin
 
-## �� Öne Çıkan Özellikler
+### 🔌 API Entegrasyonu
+```typescript
+import { apiClient, endpoints } from '../config/api';
+
+// GET request
+const response = await apiClient.get(endpoints.listings.list);
+
+// POST request
+const newListing = await apiClient.post(endpoints.listings.create, data);
+
+// File upload
+const uploadResponse = await apiClient.upload(endpoints.upload.image, file);
+```
+
+### 🎛️ Feature Flags
+```typescript
+import { isFeatureEnabled } from '../config/env';
+
+// Feature flag kontrolü
+if (isFeatureEnabled('ai')) {
+  // AI özelliklerini göster
+}
+```
+
+## 🌟 Öne Çıkan Özellikler
 
 - 📱 **Mobil-öncelikli**: Tüm özellikler mobil için optimize
 - 🤖 **AI Destekli**: Akıllı eşleştirme ve içerik önerileri
 - 🛡️ **Güvenlik Odaklı**: KVKK uyumlu ve güvenli
-- 🇹�� **Türkçe**: Tam Türkçe yerelleştirme
+- 🇹🇷 **Türkçe**: Tam Türkçe yerelleştirme
 - 🎨 **Modern UI**: Tailwind CSS ile modern tasarım
 - ⚡ **Hızlı**: Vite ile hızlı geliştirme
 - 🔧 **Type-safe**: TypeScript ile tip güvenliği
+- 🌍 **Environment-aware**: Environment variables ile konfigürasyon
+- 🔌 **API-ready**: Hazır API client ve endpoint'ler
 
 ## 📊 Proje İstatistikleri
 
-- **Toplam Dosya**: 57+ dosya
+- **Toplam Dosya**: 75+ dosya
 - **Bağımlılık**: 290+ paket
 - **TypeScript**: %100 tip güvenliği
 - **Responsive**: Mobile-first tasarım
 - **AI Özellikleri**: 5+ AI entegrasyonu
+- **Environment Variables**: 20+ konfigürasyon
+- **API Endpoints**: 15+ endpoint tanımı
 
 ## 🤝 Katkıda Bulunma
 
 1. 🍴 Fork yapın
-2. 🌿 Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
+2. �� Feature branch oluşturun (`git checkout -b feature/amazing-feature`)
 3. 💾 Değişikliklerinizi commit edin (`git commit -m 'Add amazing feature'`)
 4. 📤 Branch'i push edin (`git push origin feature/amazing-feature`)
 5. 🔄 Pull Request oluşturun
