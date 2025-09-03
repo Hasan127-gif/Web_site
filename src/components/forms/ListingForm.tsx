@@ -1,58 +1,77 @@
-interface ListingFormProps {
-  step: number
-  onNext: () => void
-  onBack: () => void
-}
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-export default function ListingForm({ step, onNext, onBack }: ListingFormProps) {
+const schema = z.object({
+  category: z.enum(['room', 'pet', 'furniture']),
+  city: z.string().min(2, 'Şehir zorunlu'),
+  price: z.coerce.number().nonnegative('Geçerli bir fiyat girin').optional(),
+  title: z.string().min(6, 'Başlık en az 6 karakter'),
+  description: z.string().min(20, 'Açıklama en az 20 karakter'),
+  rules: z.array(z.string()).optional(),
+})
+
+type FormData = z.infer<typeof schema>
+
+export default function ListingForm({
+  step,
+  onNext,
+  onBack,
+}: { step: number; onNext: () => void; onBack: () => void }) {
+  const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: { category: 'room', rules: [] },
+  })
+
+  const submit = (data: FormData) => {
+    // TODO: API'ye POST et (VITE_API_BASE_URL)
+    console.log('submit', data)
+    onNext()
+  }
+
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex space-x-2">
-          {[1, 2, 3, 4].map((s) => (
-            <div
-              key={s}
-              className={`h-2 w-8 rounded ${
-                s <= step ? 'bg-emerald-600' : 'bg-neutral-200'
-              }`}
-            />
-          ))}
-        </div>
-        <span className="text-sm text-neutral-600">Adım {step}/4</span>
+    <form onSubmit={handleSubmit(submit)} className="grid gap-4 max-w-2xl">
+      <div className="flex gap-2">
+        <button type="button" onClick={onBack} className="rounded-lg border px-3 py-2">Geri</button>
+        <div className="ml-auto text-sm text-neutral-500">Adım {step}/4</div>
       </div>
-      
-      <div className="rounded-lg border bg-white p-6">
-        <h3 className="mb-4 text-lg font-medium">
-          {step === 1 && 'Konum ve Fiyat'}
-          {step === 2 && 'Özellikler'}
-          {step === 3 && 'Fotoğraflar'}
-          {step === 4 && 'Önizleme'}
-        </h3>
-        
-        <p className="text-neutral-600">
-          {step === 1 && 'İlan konumu, fiyat ve tarih bilgileri.'}
-          {step === 2 && 'Oda/ev özellikleri, eşyalar ve kurallar.'}
-          {step === 3 && 'Fotoğraf yükleme ve AI önerileri.'}
-          {step === 4 && 'İlan önizlemesi ve yayınlama.'}
-        </p>
-      </div>
-      
-      <div className="flex justify-between">
-        <button
-          onClick={onBack}
-          disabled={step === 1}
-          className="rounded-lg border px-4 py-2 text-sm disabled:opacity-50"
-        >
-          Geri
-        </button>
-        <button
-          onClick={onNext}
-          disabled={step === 4}
-          className="rounded-lg bg-emerald-600 px-4 py-2 text-sm text-white disabled:opacity-50"
-        >
-          {step === 4 ? 'Yayınla' : 'İleri'}
-        </button>
-      </div>
-    </div>
+
+      <label className="grid gap-1">
+        <span>Kategori</span>
+        <select {...register('category')} className="rounded-lg border px-3 py-2">
+          <option value="room">Ev Arkadaşı</option>
+          <option value="pet">Sahiplendirme</option>
+          <option value="furniture">Ev Eşyası</option>
+        </select>
+      </label>
+
+      <label className="grid gap-1">
+        <span>Şehir</span>
+        <input {...register('city')} className="rounded-lg border px-3 py-2" placeholder="İstanbul" />
+        {errors.city && <small className="text-red-600">{errors.city.message}</small>}
+      </label>
+
+      <label className="grid gap-1">
+        <span>Fiyat (TL)</span>
+        <input type="number" {...register('price')} className="rounded-lg border px-3 py-2" placeholder="Örn. 5500" />
+        {errors.price && <small className="text-red-600">{errors.price.message}</small>}
+      </label>
+
+      <label className="grid gap-1">
+        <span>Başlık</span>
+        <input {...register('title')} className="rounded-lg border px-3 py-2" placeholder="Kadıköy’de eşyalı oda" />
+        {errors.title && <small className="text-red-600">{errors.title.message}</small>}
+      </label>
+
+      <label className="grid gap-1">
+        <span>Açıklama</span>
+        <textarea rows={5} {...register('description')} className="rounded-lg border px-3 py-2" placeholder="Ev kuralları, ulaşım, depozito, vb." />
+        {errors.description && <small className="text-red-600">{errors.description.message}</small>}
+      </label>
+
+      <button className="rounded-lg bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700">
+        Kaydet ve Devam Et
+      </button>
+    </form>
   )
 }
