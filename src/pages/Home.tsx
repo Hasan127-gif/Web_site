@@ -6,6 +6,7 @@ import { Input } from '../components/ui/Input';
 import { Card } from '../components/ui/Card';
 import { AIRecommendationCard } from '../components/ui/AIRecommendationCard';
 import { tr } from '../locales/tr';
+import { config, isFeatureEnabled } from '../config/env';
 
 export const Home: React.FC = () => {
   const serviceTabs = [
@@ -70,6 +71,11 @@ export const Home: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-6 space-y-8">
+      {/* App Info */}
+      <div className="text-center text-sm text-muted-foreground">
+        {config.app.name} v{config.app.version} - {config.app.environment}
+      </div>
+
       {/* Hero Section */}
       <div className="text-center space-y-6">
         <h1 className="text-3xl font-bold text-foreground">
@@ -120,13 +126,15 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* AI Matching */}
-      <AIRecommendationCard
-        isLoading={false}
-        isEmpty={false}
-        onViewRecommendations={() => console.log('View recommendations')}
-        onRefresh={() => console.log('Refresh')}
-      />
+      {/* AI Matching - Only show if feature is enabled */}
+      {isFeatureEnabled('ai') && (
+        <AIRecommendationCard
+          isLoading={false}
+          isEmpty={false}
+          onViewRecommendations={() => console.log('View recommendations')}
+          onRefresh={() => console.log('Refresh')}
+        />
+      )}
 
       {/* Featured Listings */}
       <div className="space-y-4">
@@ -181,7 +189,7 @@ export const Home: React.FC = () => {
       {/* Footer */}
       <footer className="text-center py-8 border-t text-sm text-muted-foreground">
         <div className="space-y-2">
-          <p>© 2025 TrustApp. Tüm hakları saklıdır.</p>
+          <p>© 2025 {config.app.name}. Tüm hakları saklıdır.</p>
           <div className="flex justify-center space-x-4">
             <a href="#" className="hover:text-foreground">KVKK</a>
             <a href="#" className="hover:text-foreground">SSS</a>
