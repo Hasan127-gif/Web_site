@@ -8,7 +8,7 @@ import { AIRecommendationCard } from '../components/ui/AIRecommendationCard';
 import { tr } from '../locales/tr';
 import { config, isFeatureEnabled } from '../config/env';
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   const serviceTabs = [
     { id: 'roommate', label: tr.home.tabs.roommate, icon: Users },
     { id: 'pets', label: tr.home.tabs.pets, icon: Heart },
@@ -70,39 +70,39 @@ export const Home: React.FC = () => {
   ];
 
   return (
-    <div className="container mx-auto px-4 py-6 space-y-8">
-      {/* App Info */}
-      <div className="text-center text-sm text-muted-foreground">
-        {config.app.name} v{config.app.version} - {config.app.environment}
-      </div>
-
+    <div className="space-y-12">
       {/* Hero Section */}
-      <div className="text-center space-y-6">
-        <h1 className="text-3xl font-bold text-foreground">
-          {tr.home.hero.title}
-        </h1>
+      <div className="text-center space-y-8">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold text-neutral-900 md:text-5xl">
+            {tr.home.hero.title}
+          </h1>
+          <p className="text-lg text-neutral-600 max-w-2xl mx-auto">
+            Güvenilir platformumuzda ev arkadaşı bulun, hayvan sahiplendirin ve ikinci el eşya alım-satımı yapın.
+          </p>
+        </div>
         
         <div className="max-w-md mx-auto">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-neutral-400 w-5 h-5" />
             <Input 
               placeholder={tr.home.hero.searchPlaceholder}
-              className="pl-10"
+              className="pl-12 h-12 text-lg"
             />
           </div>
         </div>
 
         {/* Service Tabs */}
-        <div className="flex justify-center space-x-2">
+        <div className="flex justify-center space-x-3">
           {serviceTabs.map((tab) => {
             const Icon = tab.icon;
             return (
               <Button
                 key={tab.id}
                 variant="outline"
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 px-6 py-3"
               >
-                <Icon className="w-4 h-4" />
+                <Icon className="w-5 h-5" />
                 <span>{tab.label}</span>
               </Button>
             );
@@ -111,14 +111,15 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Quick Filters */}
-      <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Hızlı Filtreler</h2>
-        <div className="flex flex-wrap gap-2">
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold text-neutral-900">Hızlı Filtreler</h2>
+        <div className="flex flex-wrap gap-3">
           {quickFilters.map((filter) => (
             <Button
               key={filter.label}
               variant={filter.active ? "default" : "outline"}
               size="sm"
+              className="px-4 py-2"
             >
               {filter.label}
             </Button>
@@ -137,22 +138,22 @@ export const Home: React.FC = () => {
       )}
 
       {/* Featured Listings */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Öne Çıkan İlanlar</h2>
-          <Button variant="outline" size="sm">
+          <h2 className="text-2xl font-semibold text-neutral-900">Öne Çıkan İlanlar</h2>
+          <Button variant="outline">
             Tümünü Gör
           </Button>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredListings.map((listing) => (
-            <Card key={listing.id} className="overflow-hidden">
-              <div className="aspect-video bg-muted rounded-t-lg" />
-              <div className="p-4 space-y-2">
-                <h3 className="font-semibold">{listing.title}</h3>
-                <p className="text-sm text-muted-foreground">{listing.location}</p>
-                <p className="font-bold text-primary">{listing.price}</p>
+            <Card key={listing.id} className="overflow-hidden hover:shadow-lg transition-shadow">
+              <div className="aspect-video bg-neutral-200 rounded-t-lg" />
+              <div className="p-6 space-y-3">
+                <h3 className="font-semibold text-lg text-neutral-900">{listing.title}</h3>
+                <p className="text-sm text-neutral-600">{listing.location}</p>
+                <p className="font-bold text-blue-600 text-lg">{listing.price}</p>
               </div>
             </Card>
           ))}
@@ -160,43 +161,33 @@ export const Home: React.FC = () => {
       </div>
 
       {/* Trust Row */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {trustFeatures.map((feature, index) => {
           const Icon = feature.icon;
           return (
-            <Card key={index} className="text-center p-6">
-              <Icon className="w-8 h-8 mx-auto mb-3 text-primary" />
-              <h3 className="font-semibold mb-2">{feature.title}</h3>
-              <p className="text-sm text-muted-foreground">{feature.description}</p>
+            <Card key={index} className="text-center p-8 hover:shadow-lg transition-shadow">
+              <Icon className="w-12 h-12 mx-auto mb-4 text-blue-600" />
+              <h3 className="font-semibold text-lg mb-2 text-neutral-900">{feature.title}</h3>
+              <p className="text-neutral-600">{feature.description}</p>
             </Card>
           );
         })}
       </div>
 
       {/* CTA Section */}
-      <div className="text-center space-y-4 py-8">
-        <h2 className="text-2xl font-bold">İlanınızı Verin</h2>
-        <p className="text-muted-foreground">
-          Güvenli platformumuzda ilanınızı paylaşın
-        </p>
+      <div className="text-center space-y-6 py-12 bg-neutral-100 rounded-2xl">
+        <div className="space-y-4">
+          <h2 className="text-3xl font-bold text-neutral-900">İlanınızı Verin</h2>
+          <p className="text-lg text-neutral-600 max-w-xl mx-auto">
+            Güvenli platformumuzda ilanınızı paylaşın ve hızlıca eşleşin
+          </p>
+        </div>
         <Link to="/listing/new">
-          <Button size="lg">
+          <Button size="lg" className="px-8 py-4 text-lg">
             İlan Ver
           </Button>
         </Link>
       </div>
-
-      {/* Footer */}
-      <footer className="text-center py-8 border-t text-sm text-muted-foreground">
-        <div className="space-y-2">
-          <p>© 2025 {config.app.name}. Tüm hakları saklıdır.</p>
-          <div className="flex justify-center space-x-4">
-            <a href="#" className="hover:text-foreground">KVKK</a>
-            <a href="#" className="hover:text-foreground">SSS</a>
-            <a href="#" className="hover:text-foreground">İletişim</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

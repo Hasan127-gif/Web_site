@@ -1,19 +1,15 @@
-import React from 'react';
-import { Header } from './layout/Header';
-import { Nav } from './Nav';
+import { Nav } from './Nav'
 
-interface LayoutProps {
-  children: React.ReactNode;
-}
-
-export const Layout: React.FC<LayoutProps> = ({ children }) => {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Header />
-      <main className="pb-20">
-        {children}
-      </main>
+    <div className="min-h-dvh bg-neutral-50 text-neutral-900">
       <Nav />
+      <main className="mx-auto w-full max-w-6xl px-4 py-6">{children}</main>
+      <footer className="border-t py-8 text-sm text-neutral-500">
+        <div className="mx-auto max-w-6xl px-4">
+          © {new Date().getFullYear()} — Güven Rozeti • Emanet Ödeme • Doğrulanmış Kullanıcılar
+        </div>
+      </footer>
     </div>
-  );
-};
+  )
+}
