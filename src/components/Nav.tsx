@@ -2,10 +2,12 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Users, Heart, Package, MessageCircle } from 'lucide-react';
 import { tr } from '../locales/tr';
+import { routes } from '../app/routes';
 
 export const Nav: React.FC = () => {
   const location = useLocation();
 
+  // Navigation items with icons
   const navItems = [
     { id: 'home', label: tr.nav.home, icon: Home, path: '/' },
     { id: 'roommate', label: tr.nav.roommate, icon: Users, path: '/roommates' },
