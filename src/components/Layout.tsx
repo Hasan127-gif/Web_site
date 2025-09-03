@@ -1,7 +1,7 @@
 import React from 'react'
 import TargetCursor from './TargetCursor'
 import PillNav from './PillNav'
-import logoJpg from '/assets/logo-bievim.jpg'
+import logoSvg from '/assets/logo-bievim.svg'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = false
@@ -9,19 +9,19 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-dvh bg-neutral-50 text-neutral-900">
       <TargetCursor targetSelector=".pill, .auth-action, .pill-logo" spinDuration={1.6} hideDefaultCursor={true} />
       <PillNav
-        logo={logoJpg}
+        logo={logoSvg}
         logoAlt="BiEvim"
         activeHref={typeof window !== 'undefined' ? window.location.pathname : '/'}
-        baseColor="#1F1F1F"
-        pillColor="#FFFFFF"
-        hoveredPillTextColor="#FFFFFF"
-        pillTextColor="#1F1F1F"
+        baseColor="#FFFFFF"
+        pillColor="#000000"
+        hoveredPillTextColor="#000000"
+        pillTextColor="#FFFFFF"
         ease="power2.easeOut"
         className="custom-nav"
         items={[
-          { label: 'Ev Arkadaşı İlanı', href: '/roommates' },
-          { label: 'Evcil Hayvan İlanları', href: '/pets' },
-          { label: 'İkinci El Eşya İlanları', href: '/furniture' },
+          { label: 'Ev Arkadaşı', href: '/roommates' },
+          { label: 'Evcil Hayvan', href: '/pets' },
+          { label: 'Ev Eşyaları', href: '/furniture' },
         ]}
         isAuthenticated={isAuthenticated}
       />

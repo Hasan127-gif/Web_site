@@ -115,15 +115,15 @@ export default function TargetCursor({
     // Stop idle spin
     idleSpinTL.current?.pause()
 
-    // Animate brackets to target bounds - tam hizalama
+    // Animate brackets to target bounds - tam hizalama için padding eklendi
     if (hoverTL.current) {
       hoverTL.current.kill()
     }
 
     hoverTL.current = gsap.timeline()
     hoverTL.current.to(cornerBracketsRef.current, {
-      width: targetRect.width + 4,
-      height: targetRect.height + 4,
+      width: targetRect.width + 8, // Padding artırıldı
+      height: targetRect.height + 8, // Padding artırıldı
       duration: 0.3,
       ease: 'power2.easeOut'
     })
@@ -144,8 +144,8 @@ export default function TargetCursor({
 
     hoverTL.current = gsap.timeline()
     hoverTL.current.to(cornerBracketsRef.current, {
-      width: 24,
-      height: 24,
+      width: 28, // Biraz büyütüldü
+      height: 28, // Biraz büyütüldü
       duration: 0.2,
       ease: 'power2.easeOut'
     })
@@ -191,6 +191,7 @@ export default function TargetCursor({
     // Hide default cursor only in nav area
     if (hideDefaultCursor) {
       const style = document.createElement('style')
+      style.setAttribute('data-target-cursor', 'true')
       style.textContent = `
         .pill-nav-container * {
           cursor: none !important;
@@ -301,8 +302,8 @@ export default function TargetCursor({
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '32px',
-        height: '32px',
+        width: '36px', // Biraz büyütüldü
+        height: '36px', // Biraz büyütüldü
         pointerEvents: 'none',
         zIndex: 9999,
         mixBlendMode: 'difference',
@@ -317,8 +318,8 @@ export default function TargetCursor({
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '4px',
-          height: '4px',
+          width: '5px', // Biraz büyütüldü
+          height: '5px', // Biraz büyütüldü
           background: '#fff',
           borderRadius: '50%',
           transform: 'translate(-50%, -50%)'
@@ -332,11 +333,11 @@ export default function TargetCursor({
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '24px',
-          height: '24px',
+          width: '28px', // Biraz büyütüldü
+          height: '28px', // Biraz büyütüldü
           transform: 'translate(-50%, -50%)',
           border: '2px solid #fff',
-          borderRadius: '2px'
+          borderRadius: '3px'
         }}
       >
         {/* Top-left bracket */}
@@ -344,8 +345,8 @@ export default function TargetCursor({
           position: 'absolute',
           top: '-2px',
           left: '-2px',
-          width: '8px',
-          height: '8px',
+          width: '10px', // Büyütüldü
+          height: '10px', // Büyütüldü
           borderTop: '2px solid #fff',
           borderLeft: '2px solid #fff'
         }} />
@@ -355,8 +356,8 @@ export default function TargetCursor({
           position: 'absolute',
           top: '-2px',
           right: '-2px',
-          width: '8px',
-          height: '8px',
+          width: '10px', // Büyütüldü
+          height: '10px', // Büyütüldü
           borderTop: '2px solid #fff',
           borderRight: '2px solid #fff'
         }} />
@@ -366,8 +367,8 @@ export default function TargetCursor({
           position: 'absolute',
           bottom: '-2px',
           left: '-2px',
-          width: '8px',
-          height: '8px',
+          width: '10px', // Büyütüldü
+          height: '10px', // Büyütüldü
           borderBottom: '2px solid #fff',
           borderLeft: '2px solid #fff'
         }} />
@@ -377,8 +378,8 @@ export default function TargetCursor({
           position: 'absolute',
           bottom: '-2px',
           right: '-2px',
-          width: '8px',
-          height: '8px',
+          width: '10px', // Büyütüldü
+          height: '10px', // Büyütüldü
           borderBottom: '2px solid #fff',
           borderRight: '2px solid #fff'
         }} />
