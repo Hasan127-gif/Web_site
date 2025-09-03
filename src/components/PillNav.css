@@ -12,6 +12,7 @@
   padding: 10px 16px;
   box-sizing: border-box;
   backdrop-filter: blur(8px);
+  background: var(--base, #fff);
 }
 
 /* Logo: jpg + bacada BiEvim yazısı */
@@ -26,6 +27,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  text-decoration: none;
 }
 .pill-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -44,119 +46,46 @@
   box-shadow: 0 2px 8px rgba(0,0,0,.12);
 }
 
-/* Orta menü aynı kaldı; liste merkezde */
-.pill-nav-items { justify-self: center; height: var(--nav-h); background: var(--base, #000); border-radius: 9999px; }
-
-/* Sağ taraf: auth/actions */
-.right-actions { justify-self: end; display:flex; align-items:center; gap:8px; }
-.auth-row { display:flex; gap:6px; }
-.icon-row { display:flex; gap:8px; }
-.icon-btn{
-  width: var(--nav-h); height: var(--nav-h);
-  border-radius: 50%;
-  background: var(--base, #000);
-  color: var(--pill-bg, #fff);
-  display: inline-flex; align-items:center; justify-content:center;
-  border:none; text-decoration:none;
-}
-.icon-btn:hover { filter: brightness(1.08); }
-
-/* Desktop/Mobile davranışı */
-.desktop-only{ display:block; }
-.mobile-only{ display:none; }
-@media (max-width: 768px){
-  .pill-nav{ grid-template-columns: auto auto auto; }
-  .pill-nav-items{ display:none; } /* mobilde kategori menüsü popover'da */
-  .desktop-only{ display:none; }
-  .mobile-only{ display:block; }
-}
-
-/* PillNav.css - Modern pill navigation styles */
-
-.pill-nav-container {
-  position: relative;
-  z-index: 50;
-}
-
-.pill-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  background: var(--base, #fff);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-/* Logo */
-.pill-logo {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  text-decoration: none;
-  color: var(--pill-text, #000);
-  font-weight: 600;
-  font-size: 1.125rem;
-}
-
-.pill-logo img {
-  height: 2rem;
-  width: auto;
-  transition: transform 0.2s ease;
-}
-
-.logo-chimney-label {
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.025em;
-}
-
-/* Navigation items */
-.pill-nav-items {
-  display: flex;
-  align-items: center;
+/* Orta menü - pill container */
+.pill-nav-items { 
+  justify-self: center; 
+  height: var(--nav-h); 
+  background: var(--base, #fff); 
+  border-radius: 9999px;
+  padding: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .pill-list {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
+  height: 100%;
 }
 
+/* Pill elementleri - hover animasyon düzeltmeleri */
 .pill {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 0.5rem 1rem;
+  padding: 8px 16px;
   border-radius: 9999px;
   text-decoration: none;
-  color: var(--pill-text, #000);
+  color: var(--pill-text, #333);
   background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.1);
   font-weight: 500;
-  font-size: 0.875rem;
-  transition: all 0.2s ease;
+  font-size: 14px;
+  transition: all 0.3s ease;
   overflow: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  z-index: 1;
 }
 
-.pill:hover {
-  border-color: var(--pill-bg, #000);
-  color: var(--hover-text, #000);
-}
-
-.pill.is-active {
-  background: var(--pill-bg, #000);
-  color: var(--hover-text, #fff);
-  border-color: var(--pill-bg, #000);
-}
-
-/* Hover circle animation */
+/* Hover circle animation - düzeltildi */
 .hover-circle {
   position: absolute;
   bottom: 0;
@@ -165,6 +94,7 @@
   border-radius: 50%;
   pointer-events: none;
   z-index: -1;
+  transform: translateX(-50%) scale(0);
 }
 
 .label-stack {
@@ -173,11 +103,13 @@
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  z-index: 2;
 }
 
 .pill-label {
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: inherit;
 }
 
 .pill-label-hover {
@@ -189,45 +121,79 @@
   color: var(--hover-text, #fff);
   opacity: 0;
   transition: opacity 0.3s ease;
+  white-space: nowrap;
 }
 
-/* Right actions */
-.right-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Pill hover states - yazı rengi düzeltmeleri */
+.pill:hover .pill-label {
+  color: var(--hover-text, #fff);
 }
 
-.auth-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.pill:hover .pill-label-hover {
+  opacity: 1;
 }
 
-.icon-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.pill.is-active {
+  background: var(--pill-bg, #000);
+  color: var(--hover-text, #fff);
 }
 
-.icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
+.pill.is-active .pill-label {
+  color: var(--hover-text, #fff);
+}
+
+/* Sağ taraf: auth/actions */
+.right-actions { 
+  justify-self: end; 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.auth-row { 
+  display: flex; 
+  gap: 6px; 
+}
+
+.icon-row { 
+  display: flex; 
+  gap: 8px; 
+}
+
+.icon-btn{
+  width: var(--nav-h); 
+  height: var(--nav-h);
   border-radius: 50%;
-  background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  color: var(--pill-text, #000);
+  background: var(--base, #000);
+  color: var(--pill-bg, #fff);
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+  border: none; 
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
-.icon-btn:hover {
+.icon-btn:hover { 
+  filter: brightness(1.08); 
+}
+
+/* Auth pill buttons */
+.auth-action {
+  padding: 8px 16px;
+  border-radius: 9999px;
   background: var(--pill-bg, #000);
   color: var(--hover-text, #fff);
-  border-color: var(--pill-bg, #000);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  border: 1px solid var(--pill-bg, #000);
+}
+
+.auth-action:hover {
+  background: var(--hover-text, #fff);
+  color: var(--pill-bg, #000);
 }
 
 /* Mobile menu */
@@ -288,41 +254,18 @@
   color: var(--hover-text, #fff);
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .desktop-only {
-    display: none !important;
-  }
-  
-  .mobile-only {
-    display: flex !important;
-  }
-  
-  .pill-nav {
-    padding: 1rem;
-  }
-  
-  .pill-logo {
-    font-size: 1rem;
-  }
-  
-  .pill-logo img {
-    height: 1.75rem;
-  }
+/* Desktop/Mobile davranışı */
+.desktop-only{ display:block; }
+.mobile-only{ display:none; }
+@media (max-width: 768px){
+  .pill-nav{ grid-template-columns: auto auto auto; }
+  .pill-nav-items{ display:none; } /* mobilde kategori menüsü popover'da */
+  .desktop-only{ display:none; }
+  .mobile-only{ display:block; }
 }
 
-@media (min-width: 769px) {
-  .mobile-only {
-    display: none !important;
-  }
-  
-  .desktop-only {
-    display: flex !important;
-  }
-}
-
-/* Cursor target classes for TargetCursor */
-.cursor-target {
+/* Cursor target classes for TargetCursor - sadece nav elementleri */
+.pill-nav .cursor-target {
   cursor: none;
 }
 
@@ -331,10 +274,7 @@
   .pill,
   .icon-btn,
   .mobile-menu-link,
-  .pill-logo img {
-    transition: none;
-  }
-  
+  .pill-logo img,
   .hover-circle,
   .pill-label,
   .pill-label-hover {
