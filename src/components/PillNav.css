@@ -1,3 +1,76 @@
+/* Container artık full width, üç bölmeli hizalama */
+.pill-nav-container { position: sticky; top: 0; z-index: 99; }
+.pill-nav {
+  --nav-h: 48px;
+  --pill-pad-x: 18px;
+  --pill-gap: 4px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* sol logo, orta nav, sağ actions */
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+}
+
+/* Logo: jpg + bacada BiEvim yazısı */
+.pill-logo {
+  position: relative;
+  width: calc(var(--nav-h) + 8px);
+  height: calc(var(--nav-h) + 8px);
+  border-radius: 50%;
+  background: var(--base, #000);
+  padding: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.pill-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* Chimney label – konumu logona göre ayarla (gerekirse tweak) */
+.logo-chimney-label{
+  position:absolute;
+  right: -6px;   /* bacanın olduğu köşe için ince ayar */
+  top: -4px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .2px;
+  color:#FF6B00; /* accent */
+  background: #fff;
+  padding: 2px 6px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.12);
+}
+
+/* Orta menü aynı kaldı; liste merkezde */
+.pill-nav-items { justify-self: center; height: var(--nav-h); background: var(--base, #000); border-radius: 9999px; }
+
+/* Sağ taraf: auth/actions */
+.right-actions { justify-self: end; display:flex; align-items:center; gap:8px; }
+.auth-row { display:flex; gap:6px; }
+.icon-row { display:flex; gap:8px; }
+.icon-btn{
+  width: var(--nav-h); height: var(--nav-h);
+  border-radius: 50%;
+  background: var(--base, #000);
+  color: var(--pill-bg, #fff);
+  display: inline-flex; align-items:center; justify-content:center;
+  border:none; text-decoration:none;
+}
+.icon-btn:hover { filter: brightness(1.08); }
+
+/* Desktop/Mobile davranışı */
+.desktop-only{ display:block; }
+.mobile-only{ display:none; }
+@media (max-width: 768px){
+  .pill-nav{ grid-template-columns: auto auto auto; }
+  .pill-nav-items{ display:none; } /* mobilde kategori menüsü popover'da */
+  .desktop-only{ display:none; }
+  .mobile-only{ display:block; }
+}
+
 /* PillNav.css - Modern pill navigation styles */
 
 .pill-nav-container {
