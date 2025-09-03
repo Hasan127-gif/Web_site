@@ -1,4 +1,4 @@
-/* Container artık full width, üç bölmeli hizalama */
+/* Container - nav alanını büyüttüm */
 .pill-nav-container { 
   position: sticky; 
   top: 0; 
@@ -7,34 +7,35 @@
 }
 
 .pill-nav {
-  --nav-h: 64px; /* Nav alanını büyüttüm */
-  --pill-pad-x: 20px;
-  --pill-gap: 6px;
+  --nav-h: 80px; /* Nav alanını daha da büyüttüm */
+  --pill-pad-x: 22px;
+  --pill-gap: 8px;
   width: 100%;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 16px;
-  padding: 12px 20px;
+  gap: 20px;
+  padding: 16px 24px; /* Padding artırıldı */
   box-sizing: border-box;
   backdrop-filter: blur(8px);
   background: var(--base, #fff);
   min-height: var(--nav-h);
 }
 
-/* Logo: svg + bacada BiEvim yazısı */
+/* Logo: ev fotoğrafı + bacadan BiEvim yazısı */
 .pill-logo {
   position: relative;
-  width: calc(var(--nav-h) - 16px);
-  height: calc(var(--nav-h) - 16px);
+  width: calc(var(--nav-h) - 24px); /* Logo büyütüldü */
+  height: calc(var(--nav-h) - 24px);
   border-radius: 50%;
   background: transparent;
-  padding: 4px;
+  padding: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   overflow: visible;
   text-decoration: none;
+  border: 3px solid #FF6B00; /* Logo çerçevesi */
 }
 
 .pill-logo img,
@@ -46,77 +47,86 @@
   border-radius: 50%;
 }
 
-/* Chimney label – konumu logona göre ayarla */
-.logo-chimney-label{
+/* BiEvim yazısı - bacadan çıkacak şekilde */
+.logo-chimney-label {
   position: absolute;
-  right: -8px;
-  top: -6px;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.3px;
+  right: -12px; /* Bacadan çıkacak şekilde */
+  top: -12px; /* Yukarı taşındı */
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.4px;
   color: #FF6B00;
   background: #fff;
-  padding: 3px 8px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  padding: 4px 10px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.2);
   white-space: nowrap;
+  border: 2px solid #FF6B00;
+  transform: rotate(-8deg); /* Bacadan çıkıyormuş gibi */
 }
 
-/* Orta menü - pill container */
+/* Orta menü - pill container büyütüldü */
 .pill-nav-items { 
   justify-self: center; 
-  height: calc(var(--nav-h) - 24px);
+  height: calc(var(--nav-h) - 32px); /* Container büyütüldü */
   background: var(--pill-bg, #000);
   border-radius: 9999px;
-  padding: 6px;
+  padding: 8px; /* Padding artırıldı */
   display: flex;
   align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Gölge eklendi */
 }
 
 .pill-list {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px; /* Gap artırıldı */
   list-style: none;
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
-/* Pill elementleri - yazı renk düzeltmeleri */
+/* Pill elementleri - giriş/kayıt butonları gibi stabil animasyon */
 .pill {
   position: relative;
   display: inline-flex;
   align-items: center;
-  padding: 10px 18px;
+  padding: 12px 20px; /* Padding artırıldı */
   border-radius: 9999px;
   text-decoration: none;
-  /* Normal durum: siyah zemin, beyaz yazı */
+  /* Normal durum: siyah container içinde beyaz yazı */
   background: transparent;
   color: var(--pill-text, #fff);
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.3s ease;
+  font-weight: 600; /* Font weight artırıldı */
+  font-size: 15px; /* Font size artırıldı */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
   overflow: hidden;
   height: 100%;
   box-sizing: border-box;
   z-index: 1;
-  min-height: 32px;
+  min-height: 40px; /* Min height artırıldı */
+  border: 2px solid transparent; /* Border eklendi */
 }
 
-/* Hover durumu: beyaz zemin, siyah yazı */
+/* Hover durumu: beyaz zemin, siyah yazı - stabil animasyon */
 .pill:hover {
   background: var(--base, #fff);
   color: var(--hover-text, #000);
+  border-color: var(--base, #fff);
+  transform: translateY(-2px); /* Subtle lift effect */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Hover shadow */
 }
 
 /* Active durumu: beyaz zemin, siyah yazı */
 .pill.is-active {
   background: var(--base, #fff);
   color: var(--hover-text, #000);
+  border-color: var(--base, #fff);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* Hover circle animation - kaldırıldı, basit background kullanıyoruz */
+/* Hover circle animation - kaldırıldı */
 .hover-circle {
   display: none;
 }
@@ -133,71 +143,77 @@
   transition: color 0.3s ease;
   color: inherit;
   white-space: nowrap;
+  font-weight: inherit;
 }
 
 .pill-label-hover {
-  display: none; /* Basitleştirme için kaldırıldı */
+  display: none;
 }
 
-/* Sağ taraf: auth/actions - ikonlar küçültüldü */
+/* Sağ taraf: auth/actions - ikonlar daha da küçültüldü */
 .right-actions { 
   justify-self: end; 
   display: flex; 
   align-items: center; 
-  gap: 8px; 
+  gap: 10px; 
 }
 
 .auth-row { 
   display: flex; 
-  gap: 6px; 
+  gap: 8px; 
 }
 
 .icon-row { 
   display: flex; 
-  gap: 6px; 
+  gap: 8px; 
 }
 
-/* İkonlar küçültüldü */
+/* İkonlar daha da küçültüldü */
 .icon-btn {
-  width: 36px; /* Küçültüldü */
-  height: 36px; /* Küçültüldü */
+  width: 32px; /* Daha da küçültüldü */
+  height: 32px; /* Daha da küçültüldü */
   border-radius: 50%;
   background: var(--pill-bg, #000);
   color: var(--base, #fff);
   display: inline-flex; 
   align-items: center; 
   justify-content: center;
-  border: none; 
+  border: 2px solid transparent;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .icon-btn:hover { 
   background: var(--base, #fff);
   color: var(--pill-bg, #000);
-  transform: scale(1.05);
+  border-color: var(--base, #fff);
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* Auth pill buttons */
+/* Auth pill buttons - giriş/kayıt butonları stabil */
 .auth-action {
-  padding: 10px 18px;
+  padding: 12px 20px; /* Padding artırıldı */
   border-radius: 9999px;
   background: var(--pill-bg, #000);
   color: var(--base, #fff);
   text-decoration: none;
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  border: 1px solid var(--pill-bg, #000);
-  min-height: 32px;
+  font-weight: 600; /* Font weight artırıldı */
+  font-size: 15px; /* Font size artırıldı */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth transition */
+  border: 2px solid var(--pill-bg, #000);
+  min-height: 40px; /* Min height artırıldı */
   display: inline-flex;
   align-items: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 .auth-action:hover {
   background: var(--base, #fff);
   color: var(--pill-bg, #000);
-  transform: translateY(-1px);
+  border-color: var(--base, #fff);
+  transform: translateY(-2px); /* Consistent lift */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15); /* Consistent shadow */
 }
 
 /* Mobile menu */
@@ -206,21 +222,31 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px; /* Büyütüldü */
+  height: 44px; /* Büyütüldü */
   background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
   cursor: pointer;
-  gap: 3px;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.mobile-menu-button:hover {
+  background: var(--pill-bg, #000);
+  border-color: var(--pill-bg, #000);
 }
 
 .hamburger-line {
-  width: 20px;
-  height: 2px;
+  width: 22px; /* Büyütüldü */
+  height: 3px; /* Kalınlaştırıldı */
   background: var(--pill-text, #000);
-  border-radius: 1px;
+  border-radius: 2px;
   transition: all 0.2s ease;
+}
+
+.mobile-menu-button:hover .hamburger-line {
+  background: var(--base, #fff);
 }
 
 .mobile-menu-popover {
@@ -232,6 +258,7 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   padding: 1rem;
   z-index: 40;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .mobile-menu-list {
@@ -245,17 +272,19 @@
 
 .mobile-menu-link {
   display: block;
-  padding: 12px 16px;
+  padding: 14px 18px; /* Padding artırıldı */
   text-decoration: none;
   color: var(--pill-text, #000);
-  border-radius: 8px;
-  transition: all 0.2s ease;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-weight: 500;
 }
 
 .mobile-menu-link:hover,
 .mobile-menu-link.is-active {
   background: var(--pill-bg, #000);
   color: var(--base, #fff);
+  transform: translateX(4px); /* Subtle slide */
 }
 
 /* Desktop/Mobile davranışı */
@@ -265,8 +294,8 @@
 @media (max-width: 768px) {
   .pill-nav { 
     grid-template-columns: auto auto auto;
-    --nav-h: 56px;
-    padding: 8px 16px;
+    --nav-h: 64px; /* Mobile'da da büyütüldü */
+    padding: 12px 18px;
   }
   
   .pill-nav-items { display: none; }
@@ -274,19 +303,26 @@
   .mobile-only { display: flex; }
   
   .pill-logo {
-    width: calc(var(--nav-h) - 12px);
-    height: calc(var(--nav-h) - 12px);
+    width: calc(var(--nav-h) - 16px);
+    height: calc(var(--nav-h) - 16px);
   }
   
   .logo-chimney-label {
-    font-size: 10px;
-    padding: 2px 6px;
+    font-size: 11px;
+    padding: 3px 8px;
+    right: -10px;
+    top: -10px;
   }
 }
 
-/* Cursor target classes - sadece nav elementleri */
+/* Cursor target classes - nav çerçevelerini küçülttüm */
 .pill-nav .cursor-target {
   cursor: none;
+}
+
+/* Global cursor hiding - sadece nav içinde */
+.pill-nav-container * {
+  cursor: none !important;
 }
 
 /* Accessibility */
@@ -296,7 +332,8 @@
   .auth-action,
   .mobile-menu-link,
   .pill-logo img,
-  .pill-logo svg {
+  .pill-logo svg,
+  .logo-chimney-label {
     transition: none;
     transform: none;
   }

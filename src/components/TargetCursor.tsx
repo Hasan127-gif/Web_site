@@ -115,15 +115,15 @@ export default function TargetCursor({
     // Stop idle spin
     idleSpinTL.current?.pause()
 
-    // Animate brackets to target bounds - tam hizalama için padding eklendi
+    // Animate brackets to target bounds - çerçeveler küçültüldü
     if (hoverTL.current) {
       hoverTL.current.kill()
     }
 
     hoverTL.current = gsap.timeline()
     hoverTL.current.to(cornerBracketsRef.current, {
-      width: targetRect.width + 8, // Padding artırıldı
-      height: targetRect.height + 8, // Padding artırıldı
+      width: targetRect.width + 4, // Padding küçültüldü
+      height: targetRect.height + 4, // Padding küçültüldü
       duration: 0.3,
       ease: 'power2.easeOut'
     })
@@ -137,15 +137,15 @@ export default function TargetCursor({
     // Resume idle spin
     idleSpinTL.current?.play()
 
-    // Reset brackets
+    // Reset brackets - küçültülmüş boyut
     if (hoverTL.current) {
       hoverTL.current.kill()
     }
 
     hoverTL.current = gsap.timeline()
     hoverTL.current.to(cornerBracketsRef.current, {
-      width: 28, // Biraz büyütüldü
-      height: 28, // Biraz büyütüldü
+      width: 20, // Küçültüldü
+      height: 20, // Küçültüldü
       duration: 0.2,
       ease: 'power2.easeOut'
     })
@@ -187,18 +187,6 @@ export default function TargetCursor({
     const brackets = cornerBracketsRef.current
 
     if (!cursor || !centerDot || !brackets) return
-
-    // Hide default cursor only in nav area
-    if (hideDefaultCursor) {
-      const style = document.createElement('style')
-      style.setAttribute('data-target-cursor', 'true')
-      style.textContent = `
-        .pill-nav-container * {
-          cursor: none !important;
-        }
-      `
-      document.head.appendChild(style)
-    }
 
     // Initialize cursor position - başlangıçta gizli
     gsap.set(cursor, { 
@@ -255,13 +243,6 @@ export default function TargetCursor({
 
     // Cleanup
     return () => {
-      if (hideDefaultCursor) {
-        const existingStyle = document.querySelector('style[data-target-cursor]')
-        if (existingStyle) {
-          existingStyle.remove()
-        }
-      }
-
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('click', handleClick)
 
@@ -302,8 +283,8 @@ export default function TargetCursor({
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '36px', // Biraz büyütüldü
-        height: '36px', // Biraz büyütüldü
+        width: '28px', /* Küçültüldü */
+        height: '28px', /* Küçültüldü */
         pointerEvents: 'none',
         zIndex: 9999,
         mixBlendMode: 'difference',
@@ -318,35 +299,35 @@ export default function TargetCursor({
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '5px', // Biraz büyütüldü
-          height: '5px', // Biraz büyütüldü
+          width: '4px', /* Küçültüldü */
+          height: '4px', /* Küçültüldü */
           background: '#fff',
           borderRadius: '50%',
           transform: 'translate(-50%, -50%)'
         }}
       />
       
-      {/* Corner brackets */}
+      {/* Corner brackets - küçültüldü */}
       <div
         ref={cornerBracketsRef}
         style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '28px', // Biraz büyütüldü
-          height: '28px', // Biraz büyütüldü
+          width: '20px', /* Küçültüldü */
+          height: '20px', /* Küçültüldü */
           transform: 'translate(-50%, -50%)',
-          border: '2px solid #fff',
-          borderRadius: '3px'
+          border: 'none', /* Ana border kaldırıldı */
+          borderRadius: '2px'
         }}
       >
         {/* Top-left bracket */}
         <div style={{
           position: 'absolute',
-          top: '-2px',
-          left: '-2px',
-          width: '10px', // Büyütüldü
-          height: '10px', // Büyütüldü
+          top: '0px',
+          left: '0px',
+          width: '6px', /* Küçültüldü */
+          height: '6px', /* Küçültüldü */
           borderTop: '2px solid #fff',
           borderLeft: '2px solid #fff'
         }} />
@@ -354,10 +335,10 @@ export default function TargetCursor({
         {/* Top-right bracket */}
         <div style={{
           position: 'absolute',
-          top: '-2px',
-          right: '-2px',
-          width: '10px', // Büyütüldü
-          height: '10px', // Büyütüldü
+          top: '0px',
+          right: '0px',
+          width: '6px', /* Küçültüldü */
+          height: '6px', /* Küçültüldü */
           borderTop: '2px solid #fff',
           borderRight: '2px solid #fff'
         }} />
@@ -365,10 +346,10 @@ export default function TargetCursor({
         {/* Bottom-left bracket */}
         <div style={{
           position: 'absolute',
-          bottom: '-2px',
-          left: '-2px',
-          width: '10px', // Büyütüldü
-          height: '10px', // Büyütüldü
+          bottom: '0px',
+          left: '0px',
+          width: '6px', /* Küçültüldü */
+          height: '6px', /* Küçültüldü */
           borderBottom: '2px solid #fff',
           borderLeft: '2px solid #fff'
         }} />
@@ -376,10 +357,10 @@ export default function TargetCursor({
         {/* Bottom-right bracket */}
         <div style={{
           position: 'absolute',
-          bottom: '-2px',
-          right: '-2px',
-          width: '10px', // Büyütüldü
-          height: '10px', // Büyütüldü
+          bottom: '0px',
+          right: '0px',
+          width: '6px', /* Küçültüldü */
+          height: '6px', /* Küçültüldü */
           borderBottom: '2px solid #fff',
           borderRight: '2px solid #fff'
         }} />
