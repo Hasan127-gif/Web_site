@@ -174,7 +174,7 @@ export const RoommatePage: React.FC<RoommatePageProps> = ({ onShowDetail }) => {
   const [sortBy, setSortBy] = useState<string>('newest');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
-  
+
   const [filters, setFilters] = useState<FilterState>({
     cities: [],
     districts: [],
@@ -300,20 +300,20 @@ export const RoommatePage: React.FC<RoommatePageProps> = ({ onShowDetail }) => {
         <div className="px-4 pb-4">
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {quickFilters.map(filter => (
-              <FilterPill
-                key={filter.id}
-                label={filter.label}
-                count={filter.count}
-                active={activeFilter === filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-              />
-            ))}
+            <FilterPill
+              key={filter.id}
+              label={filter.label}
+              count={filter.count}
+              active={activeFilter === filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+            />
+          ))}
             
             <div className="flex gap-2 ml-auto flex-shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowFilters(true)}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowFilters(true)}
                 className={hasActiveFilters ? 'text-blue-600 dark:text-blue-400' : ''}
               >
                 <SlidersHorizontal className="h-4 w-4 mr-1" />
@@ -351,7 +351,7 @@ export const RoommatePage: React.FC<RoommatePageProps> = ({ onShowDetail }) => {
               >
                 <X className="h-4 w-4 mr-1" />
                 Temizle
-              </Button>
+          </Button>
             </div>
           )}
         </div>
@@ -417,20 +417,20 @@ export const RoommatePage: React.FC<RoommatePageProps> = ({ onShowDetail }) => {
           <div>
             <h3 className="font-medium text-gray-900 dark:text-gray-100 mb-3">Konum</h3>
             <div className="space-y-3">
-              <Select
+          <Select
                 label="Şehir"
                 value={filters.cities[0] || ''}
                 onChange={(e) => handleFilterChange('cities', e.target.value ? [e.target.value] : [])}
                 options={cityOptions}
                 placeholder="Şehir seçin"
-              />
-              <Select
+          />
+          <Select
                 label="İlçe"
                 value={filters.districts[0] || ''}
                 onChange={(e) => handleFilterChange('districts', e.target.value ? [e.target.value] : [])}
                 options={districtOptions}
-                placeholder="İlçe seçin"
-              />
+            placeholder="İlçe seçin"
+          />
             </div>
           </div>
 
@@ -530,15 +530,15 @@ export const RoommatePage: React.FC<RoommatePageProps> = ({ onShowDetail }) => {
             </div>
 
             <div>
-              <Select
+          <Select
                 label="Cinsiyet Tercihi"
                 value={filters.gender}
                 onChange={(e) => handleFilterChange('gender', e.target.value)}
-                options={[
+            options={[
                   { value: 'any', label: 'Farketmez' },
                   { value: 'male', label: 'Erkek' },
                   { value: 'female', label: 'Kadın' },
-                ]}
+            ]}
               />
             </div>
 

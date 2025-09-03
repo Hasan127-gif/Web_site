@@ -191,7 +191,7 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
-  
+
   const [filters, setFilters] = useState<FilterState>({
     petTypes: [],
     breeds: [],
@@ -303,20 +303,20 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
         <div className="px-4 pb-4">
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {quickFilters.map(filter => (
-              <FilterPill
-                key={filter.id}
-                label={filter.label}
-                count={filter.count}
-                active={activeFilter === filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-              />
-            ))}
+            <FilterPill
+              key={filter.id}
+              label={filter.label}
+              count={filter.count}
+              active={activeFilter === filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+            />
+          ))}
             
             <div className="flex gap-2 ml-auto flex-shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowFilters(true)}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowFilters(true)}
                 className={hasActiveFilters ? 'text-blue-600 dark:text-blue-400' : ''}
               >
                 <SlidersHorizontal className="h-4 w-4 mr-1" />
@@ -338,7 +338,7 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
               >
                 <X className="h-4 w-4 mr-1" />
                 Temizle
-              </Button>
+          </Button>
             </div>
           )}
         </div>
@@ -384,7 +384,7 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
                 <Button variant="outline">
                   <User className="h-4 w-4 mr-2" />
                   Profili Tamamla
-                </Button>
+              </Button>
               </div>
             }
           />
@@ -448,7 +448,7 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
           </div>
 
           {/* Health Filters */}
-          <div className="space-y-4">
+        <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
                 Kısırlaştırma
@@ -524,7 +524,7 @@ export const PetsPage: React.FC<PetsPageProps> = ({ onShowDetail }) => {
 
           {/* Location Filter */}
           <div>
-            <Select
+          <Select
               label="Konum"
               value={filters.location}
               onChange={(e) => handleFilterChange('location', e.target.value)}

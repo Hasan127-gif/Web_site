@@ -355,20 +355,20 @@ export const FurniturePage: React.FC<FurniturePageProps> = ({ onShowDetail, onCr
         <div className="px-4 pb-4">
           <div className="flex items-center gap-2 overflow-x-auto pb-2">
             {quickFilters.map(filter => (
-              <FilterPill
-                key={filter.id}
-                label={filter.label}
-                count={filter.count}
-                active={activeFilter === filter.id}
-                onClick={() => setActiveFilter(filter.id)}
-              />
-            ))}
+            <FilterPill
+              key={filter.id}
+              label={filter.label}
+              count={filter.count}
+              active={activeFilter === filter.id}
+              onClick={() => setActiveFilter(filter.id)}
+            />
+          ))}
             
             <div className="flex gap-2 ml-auto flex-shrink-0">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowFilters(true)}
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowFilters(true)}
                 className={hasActiveFilters ? 'text-blue-600 dark:text-blue-400' : ''}
               >
                 <SlidersHorizontal className="h-4 w-4 mr-1" />
@@ -587,15 +587,15 @@ export const FurniturePage: React.FC<FurniturePageProps> = ({ onShowDetail, onCr
 
           {/* Location Filter */}
           <div>
-            <Select
+          <Select
               label="Konum"
               value={filters.location}
               onChange={(e) => handleFilterChange('location', e.target.value)}
-              options={[
+            options={[
                 { value: 'istanbul', label: 'İstanbul' },
                 { value: 'ankara', label: 'Ankara' },
                 { value: 'izmir', label: 'İzmir' }
-              ]}
+            ]}
               placeholder="Şehir seçin"
             />
           </div>

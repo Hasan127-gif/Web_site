@@ -184,8 +184,8 @@ export const HomePage: React.FC<HomePageProps> = ({ activeService, onServiceChan
               onChange={onServiceChange}
             />
           </div>
-        </div>
-      </div>
+                  </div>
+                </div>
 
       {/* Quick Filters */}
       <div className="px-4 py-4">
@@ -199,10 +199,10 @@ export const HomePage: React.FC<HomePageProps> = ({ activeService, onServiceChan
                 active={activeFilters.includes(filter.id)}
                 onClick={() => handleFilterToggle(filter.id)}
               />
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
 
       {/* AI Matching Widget */}
       <div className="px-4 mb-6">
@@ -219,13 +219,13 @@ export const HomePage: React.FC<HomePageProps> = ({ activeService, onServiceChan
           }}
         />
       </div>
-
+      
       {/* Featured Listings Carousel */}
       <div className="mb-8">
         <div className="px-4 mb-4">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100">
             Öne Çıkan İlanlar
-          </h2>
+        </h2>
         </div>
         
         <div className="relative">
@@ -317,7 +317,7 @@ export const HomePage: React.FC<HomePageProps> = ({ activeService, onServiceChan
           </div>
         </div>
       </div>
-
+      
       {/* CTA Section */}
       <div className="px-4 mb-8">
         <div className="bg-gradient-to-r from-green-500 to-blue-600 rounded-xl p-6 text-white text-center">
@@ -359,7 +359,7 @@ export const HomePage: React.FC<HomePageProps> = ({ activeService, onServiceChan
                   </a>
                 </li>
               </ul>
-            </div>
+              </div>
             
             <div>
               <h4 className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
