@@ -43,6 +43,11 @@ export default function TargetCursor({
     return element.closest('.pill-nav-container') !== null
   }, [])
 
+  // Target detection - pill, auth-action, pill-logo elementleri
+  const isTargetElement = useCallback((element: Element) => {
+    return element.matches(targetSelector) || element.closest(targetSelector) !== null
+  }, [targetSelector])
+
   // RAF throttled mouse move handler
   const handleMouseMove = useCallback((e: MouseEvent) => {
     mousePos.current.x = e.clientX
@@ -52,6 +57,9 @@ export default function TargetCursor({
     const elementUnderMouse = document.elementFromPoint(e.clientX, e.clientY)
     const inNav = elementUnderMouse ? isInsideNav(elementUnderMouse) : false
     isInNavArea.current = inNav
+
+    // Target element detection
+    const onTarget = elementUnderMouse ? isTargetElement(elementUnderMouse) : false
 
     if (rafRef.current) return
 
@@ -70,86 +78,79 @@ export default function TargetCursor({
         targetElement.current = null
         // Resume idle spin when leaving nav
         idleSpinTL.current?.play()
+        return
       }
 
-      if (isHoveringTarget.current && targetElement.current && inNav) {
-        const targetRect = targetElement.current.getBoundingClientRect()
+      // Target üzerindeyken otomatik hizalama
+      if (onTarget && elementUnderMouse) {
+        const targetRect = elementUnderMouse.getBoundingClientRect()
         const targetCenterX = targetRect.left + targetRect.width / 2
         const targetCenterY = targetRect.top + targetRect.height / 2
         
-        // Çok düşük paralaks (0.00005)
-        const parallaxX = (mousePos.current.x - targetCenterX) * 0.00005
-        const parallaxY = (mousePos.current.y - targetCenterY) * 0.00005
-        
+        // Otomatik hizalama - hedef merkeze sabitle
         gsap.set(cursor, {
-          x: targetCenterX + parallaxX,
-          y: targetCenterY + parallaxY,
+          x: targetCenterX,
+          y: targetCenterY,
           xPercent: -50,
           yPercent: -50
         })
-      } else if (inNav) {
+
+        // Target değişti mi kontrol et
+        if (targetElement.current !== elementUnderMouse) {
+          targetElement.current = elementUnderMouse as HTMLElement
+          isHoveringTarget.current = true
+
+          // Stop idle spin
+          idleSpinTL.current?.pause()
+
+          // Animate brackets to target bounds
+          if (hoverTL.current) {
+            hoverTL.current.kill()
+          }
+
+          hoverTL.current = gsap.timeline()
+          hoverTL.current.to(cornerBracketsRef.current, {
+            width: targetRect.width + 6,
+            height: targetRect.height + 6,
+            duration: 0.25,
+            ease: 'power2.easeOut'
+          })
+        }
+      } else {
+        // Target dışında - normal mouse tracking
         gsap.set(cursor, {
           x: mousePos.current.x,
           y: mousePos.current.y,
           xPercent: -50,
           yPercent: -50
         })
+
+        // Target'tan çıktı mı?
+        if (isHoveringTarget.current) {
+          isHoveringTarget.current = false
+          targetElement.current = null
+
+          // Resume idle spin
+          idleSpinTL.current?.play()
+
+          // Reset brackets
+          if (hoverTL.current) {
+            hoverTL.current.kill()
+          }
+
+          hoverTL.current = gsap.timeline()
+          hoverTL.current.to(cornerBracketsRef.current, {
+            width: 18,
+            height: 18,
+            duration: 0.2,
+            ease: 'power2.easeOut'
+          })
+        }
       }
 
       rafRef.current = null
     })
-  }, [isInsideNav])
-
-  // Mouse enter target handler
-  const handleMouseEnterTarget = useCallback((e: MouseEvent) => {
-    const target = e.currentTarget as HTMLElement
-    
-    // Sadece nav içindeki elementlerde çalış
-    if (!isInsideNav(target)) return
-    
-    const targetRect = target.getBoundingClientRect()
-    
-    isHoveringTarget.current = true
-    targetElement.current = target
-
-    // Stop idle spin
-    idleSpinTL.current?.pause()
-
-    // Animate brackets to target bounds - çerçeveler küçültüldü
-    if (hoverTL.current) {
-      hoverTL.current.kill()
-    }
-
-    hoverTL.current = gsap.timeline()
-    hoverTL.current.to(cornerBracketsRef.current, {
-      width: targetRect.width + 4, // Padding küçültüldü
-      height: targetRect.height + 4, // Padding küçültüldü
-      duration: 0.3,
-      ease: 'power2.easeOut'
-    })
-  }, [isInsideNav])
-
-  // Mouse leave target handler
-  const handleMouseLeaveTarget = useCallback(() => {
-    isHoveringTarget.current = false
-    targetElement.current = null
-
-    // Resume idle spin
-    idleSpinTL.current?.play()
-
-    // Reset brackets - küçültülmüş boyut
-    if (hoverTL.current) {
-      hoverTL.current.kill()
-    }
-
-    hoverTL.current = gsap.timeline()
-    hoverTL.current.to(cornerBracketsRef.current, {
-      width: 20, // Küçültüldü
-      height: 20, // Küçültüldü
-      duration: 0.2,
-      ease: 'power2.easeOut'
-    })
-  }, [])
+  }, [isInsideNav, isTargetElement])
 
   // Click handler
   const handleClick = useCallback(() => {
@@ -188,6 +189,18 @@ export default function TargetCursor({
 
     if (!cursor || !centerDot || !brackets) return
 
+    // Hide default cursor only in nav area
+    if (hideDefaultCursor) {
+      const style = document.createElement('style')
+      style.setAttribute('data-target-cursor', 'true')
+      style.textContent = `
+        .pill-nav-container * {
+          cursor: none !important;
+        }
+      `
+      document.head.appendChild(style)
+    }
+
     // Initialize cursor position - başlangıçta gizli
     gsap.set(cursor, { 
       x: 0, 
@@ -210,51 +223,17 @@ export default function TargetCursor({
     document.addEventListener('mousemove', handleMouseMove, { passive: true })
     document.addEventListener('click', handleClick)
 
-    // Setup target element listeners - sadece nav içindeki elementler
-    const updateTargetListeners = () => {
-      const navContainer = document.querySelector('.pill-nav-container')
-      if (!navContainer) return
-
-      const targets = navContainer.querySelectorAll(targetSelector)
-      
-      targets.forEach(target => {
-        // Skip input elements
-        if (isInputElement(target)) return
-
-        target.addEventListener('mouseenter', handleMouseEnterTarget as EventListener)
-        target.addEventListener('mouseleave', handleMouseLeaveTarget as EventListener)
-      })
-    }
-
-    updateTargetListeners()
-
-    // MutationObserver to handle dynamic content - sadece nav içi
-    const observer = new MutationObserver(() => {
-      updateTargetListeners()
-    })
-
-    const navContainer = document.querySelector('.pill-nav-container')
-    if (navContainer) {
-      observer.observe(navContainer, {
-        childList: true,
-        subtree: true
-      })
-    }
-
     // Cleanup
     return () => {
+      if (hideDefaultCursor) {
+        const existingStyle = document.querySelector('style[data-target-cursor]')
+        if (existingStyle) {
+          existingStyle.remove()
+        }
+      }
+
       document.removeEventListener('mousemove', handleMouseMove)
       document.removeEventListener('click', handleClick)
-
-      // Remove target listeners - sadece nav içi
-      const navContainer = document.querySelector('.pill-nav-container')
-      if (navContainer) {
-        const targets = navContainer.querySelectorAll(targetSelector)
-        targets.forEach(target => {
-          target.removeEventListener('mouseenter', handleMouseEnterTarget as EventListener)
-          target.removeEventListener('mouseleave', handleMouseLeaveTarget as EventListener)
-        })
-      }
 
       // Kill GSAP timelines
       idleSpinTL.current?.kill()
@@ -265,10 +244,8 @@ export default function TargetCursor({
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current)
       }
-
-      observer.disconnect()
     }
-  }, [targetSelector, spinDuration, hideDefaultCursor, handleMouseMove, handleMouseEnterTarget, handleMouseLeaveTarget, handleClick, isTouchDevice, isInputElement, isInsideNav])
+  }, [targetSelector, spinDuration, hideDefaultCursor, handleMouseMove, handleClick, isTouchDevice, isInsideNav, isTargetElement])
 
   // Touch device'larda render etme
   if (isTouchDevice()) {
@@ -283,8 +260,8 @@ export default function TargetCursor({
         position: 'fixed',
         top: 0,
         left: 0,
-        width: '28px', /* Küçültüldü */
-        height: '28px', /* Küçültüldü */
+        width: '24px', /* Daha da küçültüldü */
+        height: '24px', /* Daha da küçültüldü */
         pointerEvents: 'none',
         zIndex: 9999,
         mixBlendMode: 'difference',
@@ -299,25 +276,25 @@ export default function TargetCursor({
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '4px', /* Küçültüldü */
-          height: '4px', /* Küçültüldü */
+          width: '3px', /* Küçültüldü */
+          height: '3px', /* Küçültüldü */
           background: '#fff',
           borderRadius: '50%',
           transform: 'translate(-50%, -50%)'
         }}
       />
       
-      {/* Corner brackets - küçültüldü */}
+      {/* Corner brackets - daha küçük */}
       <div
         ref={cornerBracketsRef}
         style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
-          width: '20px', /* Küçültüldü */
-          height: '20px', /* Küçültüldü */
+          width: '18px', /* Küçültüldü */
+          height: '18px', /* Küçültüldü */
           transform: 'translate(-50%, -50%)',
-          border: 'none', /* Ana border kaldırıldı */
+          border: 'none',
           borderRadius: '2px'
         }}
       >
@@ -326,10 +303,10 @@ export default function TargetCursor({
           position: 'absolute',
           top: '0px',
           left: '0px',
-          width: '6px', /* Küçültüldü */
-          height: '6px', /* Küçültüldü */
-          borderTop: '2px solid #fff',
-          borderLeft: '2px solid #fff'
+          width: '5px', /* Küçültüldü */
+          height: '5px', /* Küçültüldü */
+          borderTop: '1.5px solid #fff',
+          borderLeft: '1.5px solid #fff'
         }} />
         
         {/* Top-right bracket */}
@@ -337,10 +314,10 @@ export default function TargetCursor({
           position: 'absolute',
           top: '0px',
           right: '0px',
-          width: '6px', /* Küçültüldü */
-          height: '6px', /* Küçültüldü */
-          borderTop: '2px solid #fff',
-          borderRight: '2px solid #fff'
+          width: '5px', /* Küçültüldü */
+          height: '5px', /* Küçültüldü */
+          borderTop: '1.5px solid #fff',
+          borderRight: '1.5px solid #fff'
         }} />
         
         {/* Bottom-left bracket */}
@@ -348,10 +325,10 @@ export default function TargetCursor({
           position: 'absolute',
           bottom: '0px',
           left: '0px',
-          width: '6px', /* Küçültüldü */
-          height: '6px', /* Küçültüldü */
-          borderBottom: '2px solid #fff',
-          borderLeft: '2px solid #fff'
+          width: '5px', /* Küçültüldü */
+          height: '5px', /* Küçültüldü */
+          borderBottom: '1.5px solid #fff',
+          borderLeft: '1.5px solid #fff'
         }} />
         
         {/* Bottom-right bracket */}
@@ -359,10 +336,10 @@ export default function TargetCursor({
           position: 'absolute',
           bottom: '0px',
           right: '0px',
-          width: '6px', /* Küçültüldü */
-          height: '6px', /* Küçültüldü */
-          borderBottom: '2px solid #fff',
-          borderRight: '2px solid #fff'
+          width: '5px', /* Küçültüldü */
+          height: '5px', /* Küçültüldü */
+          borderBottom: '1.5px solid #fff',
+          borderRight: '1.5px solid #fff'
         }} />
       </div>
     </div>
