@@ -1,17 +1,20 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import TargetCursor from './TargetCursor'
 import PillNav from './PillNav'
 import logoImg from '/assets/logo.png'
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
+  const location = useLocation()
   const isAuthenticated = false
+  
   return (
     <div className="min-h-dvh bg-neutral-50 text-neutral-900">
       <TargetCursor targetSelector=".pill, .auth-action, .pill-logo" spinDuration={1.6} hideDefaultCursor={true} />
       <PillNav
         logo={logoImg}
         logoAlt="BiEvim"
-        activeHref={typeof window !== 'undefined' ? window.location.pathname : '/'}
+        activeHref={location.pathname}
         baseColor="#000000"
         pillColor="#FFFFFF"
         hoveredPillTextColor="#FFFFFF"
